@@ -1,0 +1,679 @@
+---
+# The following would be an example query that is only executed at
+# sitea and siteb
+# - name: DemoSiteLimit
+#   query: select count(*) from certificate_full;
+#   sites:
+#     - sitea
+#     - siteb
+- name: ALLCONNS
+  description: Number of SSL connections observed.
+  query: select sum(all_ports) as count from seen_stats
+- name: HTTPSCONNS
+  description: Number of SSL connections observed.
+  query: select sum(https_port) as count from seen_stats
+- name: VERSIONPREPARATION
+  description: TLS version table
+  query: select 0 as count;
+  before:
+    - drop table if exists version_names;
+    - >
+      create table version_names (
+        version text not null unique,
+        name text not null,
+        category text not null);
+    - insert into version_names values ('2', 'SSLv2', 'SSLv2');
+    - insert into version_names values ('768', 'SSLv3', 'SSLv3');
+    - insert into version_names values ('769', 'TLSv10', 'TLSv10');
+    - insert into version_names values ('770', 'TLSv11', 'TLSv11');
+    - insert into version_names values ('771', 'TLSv12', 'TLSv12');
+    - insert into version_names values ('772', 'TLSv13', 'TLSv13');
+    - insert into version_names values ('32512', 'TLSv13-draft0', 'TLSv13');
+    - insert into version_names values ('32513', 'TLSv13-draft1', 'TLSv13');
+    - insert into version_names values ('32514', 'TLSv13-draft2', 'TLSv13');
+    - insert into version_names values ('32515', 'TLSv13-draft3', 'TLSv13');
+    - insert into version_names values ('32516', 'TLSv13-draft4', 'TLSv13');
+    - insert into version_names values ('32517', 'TLSv13-draft5', 'TLSv13');
+    - insert into version_names values ('32518', 'TLSv13-draft6', 'TLSv13');
+    - insert into version_names values ('32519', 'TLSv13-draft7', 'TLSv13');
+    - insert into version_names values ('32520', 'TLSv13-draft8', 'TLSv13');
+    - insert into version_names values ('32521', 'TLSv13-draft9', 'TLSv13');
+    - insert into version_names values ('32522', 'TLSv13-draft10', 'TLSv13');
+    - insert into version_names values ('32523', 'TLSv13-draft11', 'TLSv13');
+    - insert into version_names values ('32524', 'TLSv13-draft12', 'TLSv13');
+    - insert into version_names values ('32525', 'TLSv13-draft13', 'TLSv13');
+    - insert into version_names values ('32526', 'TLSv13-draft14', 'TLSv13');
+    - insert into version_names values ('32527', 'TLSv13-draft15', 'TLSv13');
+    - insert into version_names values ('32528', 'TLSv13-draft16', 'TLSv13');
+    - insert into version_names values ('32529', 'TLSv13-draft17', 'TLSv13');
+    - insert into version_names values ('32530', 'TLSv13-draft18', 'TLSv13');
+    - insert into version_names values ('32531', 'TLSv13-draft19', 'TLSv13');
+    - insert into version_names values ('32532', 'TLSv13-draft20', 'TLSv13');
+    - insert into version_names values ('32533', 'TLSv13-draft21', 'TLSv13');
+    - insert into version_names values ('32534', 'TLSv13-draft22', 'TLSv13');
+    - insert into version_names values ('32535', 'TLSv13-draft23', 'TLSv13');
+    - insert into version_names values ('32536', 'TLSv13-draft24', 'TLSv13');
+    - insert into version_names values ('32537', 'TLSv13-draft25', 'TLSv13');
+    - insert into version_names values ('32538', 'TLSv13-draft26', 'TLSv13');
+    - insert into version_names values ('32539', 'TLSv13-draft27', 'TLSv13');
+    - insert into version_names values ('32540', 'TLSv13-draft28', 'TLSv13');
+    - insert into version_names values ('64278', 'TLSv13-FB22', 'TLSv13');
+    - insert into version_names values ('64279', 'TLSv13-FB23', 'TLSv13');
+    - insert into version_names values ('64282', 'TLSv13-FB26', 'TLSv13');
+    - insert into version_names values ('64296', 'TLSv13-FB40', 'TLSv13');
+    - insert into version_names values ('65277', 'DTLSv12', 'DTLSv12');
+    - insert into version_names values ('65279', 'DTLSv10', 'DTLSv10');
+    - insert into version_names values ('32257', 'TLSv13-7E01', 'TLSv13');
+    - insert into version_names values ('32258', 'TLSv13-7E02', 'TLSv13');
+    - insert into version_names values ('SSLv2', 'SSLv2', 'SSLv2');
+    - insert into version_names values ('SSLv3', 'SSLv3', 'SSLv3');
+    - insert into version_names values ('TLSv10', 'TLSv10', 'TLSv10');
+    - insert into version_names values ('TLSv11', 'TLSv11', 'TLSv11');
+    - insert into version_names values ('TLSv12', 'TLSv12', 'TLSv12');
+    - insert into version_names values ('2570', 'GREASE-2570', 'GREASE');
+    - insert into version_names values ('6682', 'GREASE-6682', 'GREASE');
+    - insert into version_names values ('10794', 'GREASE-10794', 'GREASE');
+    - insert into version_names values ('14906', 'GREASE-14906', 'GREASE');
+    - insert into version_names values ('19018', 'GREASE-19018', 'GREASE');
+    - insert into version_names values ('23130', 'GREASE-23130', 'GREASE');
+    - insert into version_names values ('27242', 'GREASE-27242', 'GREASE');
+    - insert into version_names values ('31354', 'GREASE-31354', 'GREASE');
+    - insert into version_names values ('35466', 'GREASE-35466', 'GREASE');
+    - insert into version_names values ('39578', 'GREASE-39578', 'GREASE');
+    - insert into version_names values ('43690', 'GREASE-43690', 'GREASE');
+    - insert into version_names values ('47802', 'GREASE-47802', 'GREASE');
+    - insert into version_names values ('51914', 'GREASE-51914', 'GREASE');
+    - insert into version_names values ('56026', 'GREASE-56026', 'GREASE');
+    - insert into version_names values ('60138', 'GREASE-60138', 'GREASE');
+    - insert into version_names values ('64250', 'GREASE-64250', 'GREASE');
+- name: CIPHERPREPARATION
+  description: TLS ciphers table
+  query: select 0 as count;
+  before:
+    - drop table if exists cipher_names;
+    - >
+      create table cipher_names (
+        cipher text not null unique,
+        name text not null,
+        tls13 bool not null);
+    - insert into cipher_names values('49227', 'TLS_ECDH_ECDSA_WITH_ARIA_256_CBC_SHA384', '0');
+    - insert into cipher_names values('167', 'TLS_DH_ANON_WITH_AES_256_GCM_SHA384', '0');
+    - insert into cipher_names values('49298', 'TLS_RSA_PSK_WITH_CAMELLIA_128_GCM_SHA256', '0');
+    - insert into cipher_names values('183', 'TLS_RSA_PSK_WITH_AES_256_CBC_SHA384', '0');
+    - insert into cipher_names values('49', 'TLS_DH_RSA_WITH_AES_128_CBC_SHA', '0');
+    - insert into cipher_names values('3', 'TLS_RSA_EXPORT_WITH_RC4_40_MD5', '0');
+    - insert into cipher_names values('37', 'TLS_KRB5_WITH_IDEA_CBC_MD5', '0');
+    - insert into cipher_names values('49171', 'TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA', '0');
+    - insert into cipher_names values('49235', 'TLS_DHE_RSA_WITH_ARIA_256_GCM_SHA384', '0');
+    - insert into cipher_names values('49250', 'TLS_ECDH_RSA_WITH_ARIA_128_GCM_SHA256', '0');
+    - insert into cipher_names values('49212', 'TLS_RSA_WITH_ARIA_128_CBC_SHA256', '0');
+    - insert into cipher_names values('49260', 'TLS_DHE_PSK_WITH_ARIA_128_GCM_SHA256', '0');
+    - insert into cipher_names values('49221', 'TLS_DHE_RSA_WITH_ARIA_256_CBC_SHA384', '0');
+    - insert into cipher_names values('61', 'TLS_RSA_WITH_AES_256_CBC_SHA256', '0');
+    - insert into cipher_names values('34', 'TLS_KRB5_WITH_DES_CBC_MD5', '0');
+    - insert into cipher_names values('52244', 'TLS_ECDHE_ECDSA_WITH_CHACHA20_POLY1305_SHA256_OLD', '0');
+    - insert into cipher_names values('4868', 'TLS_AES_128_CCM_SHA256', '1');
+    - insert into cipher_names values('49177', 'TLS_ECDH_ANON_WITH_AES_256_CBC_SHA', '0');
+    - insert into cipher_names values('49220', 'TLS_DHE_RSA_WITH_ARIA_128_CBC_SHA256', '0');
+    - insert into cipher_names values('49251', 'TLS_ECDH_RSA_WITH_ARIA_256_GCM_SHA384', '0');
+    - insert into cipher_names values('49261', 'TLS_DHE_PSK_WITH_ARIA_256_GCM_SHA384', '0');
+    - insert into cipher_names values('184', 'TLS_RSA_PSK_WITH_NULL_SHA256', '0');
+    - insert into cipher_names values('190', 'TLS_DHE_RSA_WITH_CAMELLIA_128_CBC_SHA256', '0');
+    - insert into cipher_names values('49233', 'TLS_RSA_WITH_ARIA_256_GCM_SHA384', '0');
+    - insert into cipher_names values('191', 'TLS_DH_ANON_WITH_CAMELLIA_128_CBC_SHA256', '0');
+    - insert into cipher_names values('11', 'TLS_DH_DSS_EXPORT_WITH_DES40_CBC_SHA', '0');
+    - insert into cipher_names values('49267', 'TLS_ECDHE_ECDSA_WITH_CAMELLIA_256_CBC_SHA384', '0');
+    - insert into cipher_names values('49257', 'TLS_RSA_PSK_WITH_ARIA_256_CBC_SHA384', '0');
+    - insert into cipher_names values('49216', 'TLS_DH_RSA_WITH_ARIA_128_CBC_SHA256', '0');
+    - insert into cipher_names values('49170', 'TLS_ECDHE_RSA_WITH_3DES_EDE_CBC_SHA', '0');
+    - insert into cipher_names values('0', 'TLS_NULL_WITH_NULL_NULL', '0');
+    - insert into cipher_names values('49202', 'TLS_ECDH_RSA_WITH_AES_256_GCM_SHA384', '0');
+    - insert into cipher_names values('35', 'TLS_KRB5_WITH_3DES_EDE_CBC_MD5', '0');
+    - insert into cipher_names values('56', 'TLS_DHE_DSS_WITH_AES_256_CBC_SHA', '0');
+    - insert into cipher_names values('65408', 'SSL_RSA_WITH_RC2_CBC_MD5', '0');
+    - insert into cipher_names values('49325', 'TLS_ECDHE_ECDSA_WITH_AES_256_CCM', '0');
+    - insert into cipher_names values('49290', 'TLS_ECDHE_RSA_WITH_CAMELLIA_128_GCM_SHA256', '0');
+    - insert into cipher_names values('139', 'TLS_PSK_WITH_3DES_EDE_CBC_SHA', '0');
+    - insert into cipher_names values('65410', 'SSL_RSA_WITH_DES_CBC_MD5', '0');
+    - insert into cipher_names values('126', 'TLS_RSA_WITH_AES_256_CBC_RMD', '0');
+    - insert into cipher_names values('49184', 'TLS_SRP_SHA_WITH_AES_256_CBC_SHA', '0');
+    - insert into cipher_names values('68', 'TLS_DHE_DSS_WITH_CAMELLIA_128_CBC_SHA', '0');
+    - insert into cipher_names values('49268', 'TLS_ECDH_ECDSA_WITH_CAMELLIA_128_CBC_SHA256', '0');
+    - insert into cipher_names values('49258', 'TLS_PSK_WITH_ARIA_128_GCM_SHA256', '0');
+    - insert into cipher_names values('49206', 'TLS_ECDHE_PSK_WITH_AES_256_CBC_SHA', '0');
+    - insert into cipher_names values('65411', 'SSL_RSA_WITH_3DES_EDE_CBC_MD5', '0');
+    - insert into cipher_names values('49323', 'TLS_PSK_DHE_WITH_AES_256_CCM_8', '0');
+    - insert into cipher_names values('106', 'TLS_DHE_DSS_WITH_AES_256_CBC_SHA256', '0');
+    - insert into cipher_names values('49228', 'TLS_ECDHE_RSA_WITH_ARIA_128_CBC_SHA256', '0');
+    - insert into cipher_names values('65278', 'SSL_RSA_FIPS_WITH_DES_CBC_SHA', '0');
+    - insert into cipher_names values('114', 'TLS_DHE_DSS_WITH_3DES_EDE_CBC_RMD', '0');
+    - insert into cipher_names values('49297', 'TLS_DHE_PSK_WITH_CAMELLIA_256_GCM_SHA384', '0');
+    - insert into cipher_names values('49178', 'TLS_SRP_SHA_WITH_3DES_EDE_CBC_SHA', '0');
+    - insert into cipher_names values('49291', 'TLS_ECDHE_RSA_WITH_CAMELLIA_256_GCM_SHA384', '0');
+    - insert into cipher_names values('18', 'TLS_DHE_DSS_WITH_DES_CBC_SHA', '0');
+    - insert into cipher_names values('49186', 'TLS_SRP_SHA_DSS_WITH_AES_256_CBC_SHA', '0');
+    - insert into cipher_names values('131200', 'SSLv20_CK_RC4_128_EXPORT40_WITH_MD5', '0');
+    - insert into cipher_names values('49248', 'TLS_ECDHE_RSA_WITH_ARIA_128_GCM_SHA256', '0');
+    - insert into cipher_names values('43', 'TLS_KRB5_EXPORT_WITH_RC4_40_MD5', '0');
+    - insert into cipher_names values('49199', 'TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256', '0');
+    - insert into cipher_names values('20', 'TLS_DHE_RSA_EXPORT_WITH_DES40_CBC_SHA', '0');
+    - insert into cipher_names values('49283', 'TLS_DH_DSS_WITH_CAMELLIA_256_GCM_SHA384', '0');
+    - insert into cipher_names values('22', 'TLS_DHE_RSA_WITH_3DES_EDE_CBC_SHA', '0');
+    - insert into cipher_names values('49182', 'TLS_SRP_SHA_RSA_WITH_AES_128_CBC_SHA', '0');
+    - insert into cipher_names values('115', 'TLS_DHE_DSS_WITH_AES_128_CBC_RMD', '0');
+    - insert into cipher_names values('54', 'TLS_DH_DSS_WITH_AES_256_CBC_SHA', '0');
+    - insert into cipher_names values('130', 'TLS_GOSTR341094_WITH_NULL_GOSTR3411', '0');
+    - insert into cipher_names values('49285', 'TLS_DH_ANON_WITH_CAMELLIA_256_GCM_SHA384', '0');
+    - insert into cipher_names values('49204', 'TLS_ECDHE_PSK_WITH_3DES_EDE_CBC_SHA', '0');
+    - insert into cipher_names values('157', 'TLS_RSA_WITH_AES_256_GCM_SHA384', '0');
+    - insert into cipher_names values('131', 'TLS_GOSTR341001_WITH_NULL_GOSTR3411', '0');
+    - insert into cipher_names values('49319', 'TLS_DHE_PSK_WITH_AES_256_CCM', '0');
+    - insert into cipher_names values('57', 'TLS_DHE_RSA_WITH_AES_256_CBC_SHA', '0');
+    - insert into cipher_names values('5', 'TLS_RSA_WITH_RC4_128_SHA', '0');
+    - insert into cipher_names values('49159', 'TLS_ECDHE_ECDSA_WITH_RC4_128_SHA', '0');
+    - insert into cipher_names values('49169', 'TLS_ECDHE_RSA_WITH_RC4_128_SHA', '0');
+    - insert into cipher_names values('102', 'TLS_DHE_DSS_WITH_RC4_128_SHA', '0');
+    - insert into cipher_names values('5817', 'TLS_CECPQ1_RSA_WITH_AES_256_GCM_SHA384', '0');
+    - insert into cipher_names values('188', 'TLS_DH_RSA_WITH_CAMELLIA_128_CBC_SHA256', '0');
+    - insert into cipher_names values('49240', 'TLS_DH_DSS_WITH_ARIA_128_GCM_SHA256', '0');
+    - insert into cipher_names values('185', 'TLS_RSA_PSK_WITH_NULL_SHA384', '0');
+    - insert into cipher_names values('49214', 'TLS_DH_DSS_WITH_ARIA_128_CBC_SHA256', '0');
+    - insert into cipher_names values('49279', 'TLS_DH_RSA_WITH_CAMELLIA_256_GCM_SHA384', '0');
+    - insert into cipher_names values('147', 'TLS_RSA_PSK_WITH_3DES_EDE_CBC_SHA', '0');
+    - insert into cipher_names values('49309', 'TLS_RSA_WITH_AES_256_CCM', '0');
+    - insert into cipher_names values('49241', 'TLS_DH_DSS_WITH_ARIA_256_GCM_SHA384', '0');
+    - insert into cipher_names values('36', 'TLS_KRB5_WITH_RC4_128_MD5', '0');
+    - insert into cipher_names values('55', 'TLS_DH_RSA_WITH_AES_256_CBC_SHA', '0');
+    - insert into cipher_names values('458944', 'SSLv20_CK_DES_192_EDE3_CBC_WITH_MD5', '0');
+    - insert into cipher_names values('177', 'TLS_PSK_WITH_NULL_SHA384', '0');
+    - insert into cipher_names values('49247', 'TLS_ECDH_ECDSA_WITH_ARIA_256_GCM_SHA384', '0');
+    - insert into cipher_names values('49327', 'TLS_ECDHE_ECDSA_WITH_AES_256_CCM_8', '0');
+    - insert into cipher_names values('170', 'TLS_DHE_PSK_WITH_AES_128_GCM_SHA256', '0');
+    - insert into cipher_names values('182', 'TLS_RSA_PSK_WITH_AES_128_CBC_SHA256', '0');
+    - insert into cipher_names values('169', 'TLS_PSK_WITH_AES_256_GCM_SHA384', '0');
+    - insert into cipher_names values('171', 'TLS_DHE_PSK_WITH_AES_256_GCM_SHA384', '0');
+    - insert into cipher_names values('49293', 'TLS_ECDH_RSA_WITH_CAMELLIA_256_GCM_SHA384', '0');
+    - insert into cipher_names values('53', 'TLS_RSA_WITH_AES_256_CBC_SHA', '0');
+    - insert into cipher_names values('49189', 'TLS_ECDH_ECDSA_WITH_AES_128_CBC_SHA256', '0');
+    - insert into cipher_names values('49196', 'TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384', '0');
+    - insert into cipher_names values('21', 'TLS_DHE_RSA_WITH_DES_CBC_SHA', '0');
+    - insert into cipher_names values('49312', 'TLS_RSA_WITH_AES_128_CCM_8', '0');
+    - insert into cipher_names values('49321', 'TLS_PSK_WITH_AES_256_CCM_8', '0');
+    - insert into cipher_names values('108', 'TLS_DH_ANON_WITH_AES_128_CBC_SHA256', '0');
+    - insert into cipher_names values('140', 'TLS_PSK_WITH_AES_128_CBC_SHA', '0');
+    - insert into cipher_names values('141', 'TLS_PSK_WITH_AES_256_CBC_SHA', '0');
+    - insert into cipher_names values('53250', 'TLS_ECDHE_PSK_WITH_AES_256_GCM_SHA384', '0');
+    - insert into cipher_names values('125', 'TLS_RSA_WITH_AES_128_CBC_RMD', '0');
+    - insert into cipher_names values('49320', 'TLS_PSK_WITH_AES_128_CCM_8', '0');
+    - insert into cipher_names values('49295', 'TLS_PSK_WITH_CAMELLIA_256_GCM_SHA384', '0');
+    - insert into cipher_names values('105', 'TLS_DH_RSA_WITH_AES_256_CBC_SHA256', '0');
+    - insert into cipher_names values('47', 'TLS_RSA_WITH_AES_128_CBC_SHA', '0');
+    - insert into cipher_names values('4', 'TLS_RSA_WITH_RC4_128_MD5', '0');
+    - insert into cipher_names values('53251', 'TLS_ECDHE_PSK_WITH_AES_128_CCM_8_SHA256', '0');
+    - insert into cipher_names values('49238', 'TLS_DHE_DSS_WITH_ARIA_128_GCM_SHA256', '0');
+    - insert into cipher_names values('39', 'TLS_KRB5_EXPORT_WITH_RC2_CBC_40_SHA', '0');
+    - insert into cipher_names values('128', 'TLS_GOSTR341094_WITH_28147_CNT_IMIT', '0');
+    - insert into cipher_names values('65664', 'SSLv20_CK_RC4_128_WITH_MD5', '0');
+    - insert into cipher_names values('98', 'TLS_RSA_EXPORT1024_WITH_DES_CBC_SHA', '0');
+    - insert into cipher_names values('49192', 'TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384', '0');
+    - insert into cipher_names values('393280', 'SSLv20_CK_DES_64_CBC_WITH_MD5', '0');
+    - insert into cipher_names values('49316', 'TLS_PSK_WITH_AES_128_CCM', '0');
+    - insert into cipher_names values('49272', 'TLS_ECDH_RSA_WITH_CAMELLIA_128_CBC_SHA256', '0');
+    - insert into cipher_names values('49237', 'TLS_DH_RSA_WITH_ARIA_256_GCM_SHA384', '0');
+    - insert into cipher_names values('49302', 'TLS_DHE_PSK_WITH_CAMELLIA_128_CBC_SHA256', '0');
+    - insert into cipher_names values('151', 'TLS_DH_DSS_WITH_SEED_CBC_SHA', '0');
+    - insert into cipher_names values('49156', 'TLS_ECDH_ECDSA_WITH_AES_128_CBC_SHA', '0');
+    - insert into cipher_names values('137', 'TLS_DH_ANON_WITH_CAMELLIA_256_CBC_SHA', '0');
+    - insert into cipher_names values('49166', 'TLS_ECDH_RSA_WITH_AES_128_CBC_SHA', '0');
+    - insert into cipher_names values('150', 'TLS_RSA_WITH_SEED_CBC_SHA', '0');
+    - insert into cipher_names values('49225', 'TLS_ECDHE_ECDSA_WITH_ARIA_256_CBC_SHA384', '0');
+    - insert into cipher_names values('49175', 'TLS_ECDH_ANON_WITH_3DES_EDE_CBC_SHA', '0');
+    - insert into cipher_names values('49253', 'TLS_PSK_WITH_ARIA_256_CBC_SHA384', '0');
+    - insert into cipher_names values('49263', 'TLS_RSA_PSK_WITH_ARIA_256_GCM_SHA384', '0');
+    - insert into cipher_names values('49231', 'TLS_ECDH_RSA_WITH_ARIA_256_CBC_SHA384', '0');
+    - insert into cipher_names values('52396', 'TLS_ECDHE_PSK_WITH_CHACHA20_POLY1305_SHA256', '0');
+    - insert into cipher_names values('28', 'SSL_FORTEZZA_KEA_WITH_NULL_SHA', '0');
+    - insert into cipher_names values('49230', 'TLS_ECDH_RSA_WITH_ARIA_128_CBC_SHA256', '0');
+    - insert into cipher_names values('49276', 'TLS_DHE_RSA_WITH_CAMELLIA_128_GCM_SHA256', '0');
+    - insert into cipher_names values('49306', 'TLS_ECDHE_PSK_WITH_CAMELLIA_128_CBC_SHA256', '0');
+    - insert into cipher_names values('49223', 'TLS_DH_ANON_WITH_ARIA_256_CBC_SHA384', '0');
+    - insert into cipher_names values('49162', 'TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA', '0');
+    - insert into cipher_names values('49255', 'TLS_DHE_PSK_WITH_ARIA_256_CBC_SHA384', '0');
+    - insert into cipher_names values('49265', 'TLS_ECDHE_PSK_WITH_ARIA_256_CBC_SHA384', '0');
+    - insert into cipher_names values('49173', 'TLS_ECDH_ANON_WITH_NULL_SHA', '0');
+    - insert into cipher_names values('52392', 'TLS_ECDHE_RSA_WITH_CHACHA20_POLY1305_SHA256', '0');
+    - insert into cipher_names values('8', 'TLS_RSA_EXPORT_WITH_DES40_CBC_SHA', '0');
+    - insert into cipher_names values('12', 'TLS_DH_DSS_WITH_DES_CBC_SHA', '0');
+    - insert into cipher_names values('4869', 'TLS_AES_128_CCM_8_SHA256', '1');
+    - insert into cipher_names values('52394', 'TLS_DHE_RSA_WITH_CHACHA20_POLY1305_SHA256', '0');
+    - insert into cipher_names values('49288', 'TLS_ECDH_ECDSA_WITH_CAMELLIA_128_GCM_SHA256', '0');
+    - insert into cipher_names values('49154', 'TLS_ECDH_ECDSA_WITH_RC4_128_SHA', '0');
+    - insert into cipher_names values('196736', 'SSLv20_CK_RC2_128_CBC_WITH_MD5', '0');
+    - insert into cipher_names values('49164', 'TLS_ECDH_RSA_WITH_RC4_128_SHA', '0');
+    - insert into cipher_names values('59', 'TLS_RSA_WITH_NULL_SHA256', '0');
+    - insert into cipher_names values('60', 'TLS_RSA_WITH_AES_128_CBC_SHA256', '0');
+    - insert into cipher_names values('49243', 'TLS_DH_ANON_WITH_ARIA_256_GCM_SHA384', '0');
+    - insert into cipher_names values('62', 'TLS_DH_DSS_WITH_AES_128_CBC_SHA256', '0');
+    - insert into cipher_names values('186', 'TLS_RSA_WITH_CAMELLIA_128_CBC_SHA256', '0');
+    - insert into cipher_names values('65505', 'SSL_RSA_FIPS_WITH_DES_CBC_SHA_2', '0');
+    - insert into cipher_names values('159', 'TLS_DHE_RSA_WITH_AES_256_GCM_SHA384', '0');
+    - insert into cipher_names values('49274', 'TLS_RSA_WITH_CAMELLIA_128_GCM_SHA256', '0');
+    - insert into cipher_names values('49245', 'TLS_ECDHE_ECDSA_WITH_ARIA_256_GCM_SHA384', '0');
+    - insert into cipher_names values('49304', 'TLS_RSA_PSK_WITH_CAMELLIA_128_CBC_SHA256', '0');
+    - insert into cipher_names values('10', 'TLS_RSA_WITH_3DES_EDE_CBC_SHA', '0');
+    - insert into cipher_names values('33', 'TLS_KRB5_WITH_IDEA_CBC_SHA', '0');
+    - insert into cipher_names values('49219', 'TLS_DHE_DSS_WITH_ARIA_256_CBC_SHA384', '0');
+    - insert into cipher_names values('49194', 'TLS_ECDH_RSA_WITH_AES_256_CBC_SHA384', '0');
+    - insert into cipher_names values('103', 'TLS_DHE_RSA_WITH_AES_128_CBC_SHA256', '0');
+    - insert into cipher_names values('4865', 'TLS_AES_128_GCM_SHA256', '1');
+    - insert into cipher_names values('4866', 'TLS_AES_256_GCM_SHA384', '1');
+    - insert into cipher_names values('70', 'TLS_DH_ANON_WITH_CAMELLIA_128_CBC_SHA', '0');
+    - insert into cipher_names values('197', 'TLS_DH_ANON_WITH_CAMELLIA_256_CBC_SHA256', '0');
+    - insert into cipher_names values('49280', 'TLS_DHE_DSS_WITH_CAMELLIA_128_GCM_SHA256', '0');
+    - insert into cipher_names values('124', 'TLS_RSA_WITH_3DES_EDE_CBC_RMD', '0');
+    - insert into cipher_names values('116', 'TLS_DHE_DSS_WITH_AES_256_CBC_RMD', '0');
+    - insert into cipher_names values('104', 'TLS_DH_DSS_WITH_AES_256_CBC_SHA256', '0');
+    - insert into cipher_names values('49314', 'TLS_DHE_RSA_WITH_AES_128_CCM_8', '0');
+    - insert into cipher_names values('49209', 'TLS_ECDHE_PSK_WITH_NULL_SHA', '0');
+    - insert into cipher_names values('149', 'TLS_RSA_PSK_WITH_AES_256_CBC_SHA', '0');
+    - insert into cipher_names values('49281', 'TLS_DHE_DSS_WITH_CAMELLIA_256_GCM_SHA384', '0');
+    - insert into cipher_names values('161', 'TLS_DH_RSA_WITH_AES_256_GCM_SHA384', '0');
+    - insert into cipher_names values('49287', 'TLS_ECDHE_ECDSA_WITH_CAMELLIA_256_GCM_SHA384', '0');
+    - insert into cipher_names values('160', 'TLS_DH_RSA_WITH_AES_128_GCM_SHA256', '0');
+    - insert into cipher_names values('179', 'TLS_DHE_PSK_WITH_AES_256_CBC_SHA384', '0');
+    - insert into cipher_names values('49179', 'TLS_SRP_SHA_RSA_WITH_3DES_EDE_CBC_SHA', '0');
+    - insert into cipher_names values('49234', 'TLS_DHE_RSA_WITH_ARIA_128_GCM_SHA256', '0');
+    - insert into cipher_names values('175', 'TLS_PSK_WITH_AES_256_CBC_SHA384', '0');
+    - insert into cipher_names values('40', 'TLS_KRB5_EXPORT_WITH_RC4_40_SHA', '0');
+    - insert into cipher_names values('23', 'TLS_DH_ANON_EXPORT_WITH_RC4_40_MD5', '0');
+    - insert into cipher_names values('5816', 'TLS_CECPQ1_ECDSA_WITH_CHACHA20_POLY1305_SHA256', '0');
+    - insert into cipher_names values('5815', 'TLS_CECPQ1_RSA_WITH_CHACHA20_POLY1305_SHA256', '0');
+    - insert into cipher_names values('121', 'TLS_DHE_RSA_WITH_AES_256_CBC_RMD', '0');
+    - insert into cipher_names values('145', 'TLS_DHE_PSK_WITH_AES_256_CBC_SHA', '0');
+    - insert into cipher_names values('52245', 'TLS_DHE_RSA_WITH_CHACHA20_POLY1305_SHA256_OLD', '0');
+    - insert into cipher_names values('51', 'TLS_DHE_RSA_WITH_AES_128_CBC_SHA', '0');
+    - insert into cipher_names values('163', 'TLS_DHE_DSS_WITH_AES_256_GCM_SHA384', '0');
+    - insert into cipher_names values('187', 'TLS_DH_DSS_WITH_CAMELLIA_128_CBC_SHA256', '0');
+    - insert into cipher_names values('120', 'TLS_DHE_RSA_WITH_AES_128_CBC_RMD', '0');
+    - insert into cipher_names values('49229', 'TLS_ECDHE_RSA_WITH_ARIA_256_CBC_SHA384', '0');
+    - insert into cipher_names values('65279', 'SSL_RSA_FIPS_WITH_3DES_EDE_CBC_SHA', '0');
+    - insert into cipher_names values('100', 'TLS_RSA_EXPORT1024_WITH_RC4_56_SHA', '0');
+    - insert into cipher_names values('148', 'TLS_RSA_PSK_WITH_AES_128_CBC_SHA', '0');
+    - insert into cipher_names values('49259', 'TLS_PSK_WITH_ARIA_256_GCM_SHA384', '0');
+    - insert into cipher_names values('49269', 'TLS_ECDH_ECDSA_WITH_CAMELLIA_256_CBC_SHA384', '0');
+    - insert into cipher_names values('101', 'TLS_DHE_DSS_EXPORT1024_WITH_RC4_56_SHA', '0');
+    - insert into cipher_names values('178', 'TLS_DHE_PSK_WITH_AES_128_CBC_SHA256', '0');
+    - insert into cipher_names values('42', 'TLS_KRB5_EXPORT_WITH_RC2_CBC_40_MD5', '0');
+    - insert into cipher_names values('65409', 'SSL_RSA_WITH_IDEA_CBC_MD5', '0');
+    - insert into cipher_names values('52243', 'TLS_ECDHE_RSA_WITH_CHACHA20_POLY1305_SHA256_OLD', '0');
+    - insert into cipher_names values('164', 'TLS_DH_DSS_WITH_AES_128_GCM_SHA256', '0');
+    - insert into cipher_names values('66', 'TLS_DH_DSS_WITH_CAMELLIA_128_CBC_SHA', '0');
+    - insert into cipher_names values('49324', 'TLS_ECDHE_ECDSA_WITH_AES_128_CCM', '0');
+    - insert into cipher_names values('155', 'TLS_DH_ANON_WITH_SEED_CBC_SHA', '0');
+    - insert into cipher_names values('49282', 'TLS_DH_DSS_WITH_CAMELLIA_128_GCM_SHA256', '0');
+    - insert into cipher_names values('132', 'TLS_RSA_WITH_CAMELLIA_256_CBC_SHA', '0');
+    - insert into cipher_names values('58', 'TLS_DH_ANON_WITH_AES_256_CBC_SHA', '0');
+    - insert into cipher_names values('49185', 'TLS_SRP_SHA_RSA_WITH_AES_256_CBC_SHA', '0');
+    - insert into cipher_names values('16', 'TLS_DH_RSA_WITH_3DES_EDE_CBC_SHA', '0');
+    - insert into cipher_names values('196', 'TLS_DHE_RSA_WITH_CAMELLIA_256_CBC_SHA256', '0');
+    - insert into cipher_names values('49286', 'TLS_ECDHE_ECDSA_WITH_CAMELLIA_128_GCM_SHA256', '0');
+    - insert into cipher_names values('49299', 'TLS_RSA_PSK_WITH_CAMELLIA_256_GCM_SHA384', '0');
+    - insert into cipher_names values('49183', 'TLS_SRP_SHA_DSS_WITH_AES_128_CBC_SHA', '0');
+    - insert into cipher_names values('22016', 'TLS_FALLBACK_SCSV', '0');
+    - insert into cipher_names values('158', 'TLS_DHE_RSA_WITH_AES_128_GCM_SHA256', '0');
+    - insert into cipher_names values('49310', 'TLS_DHE_RSA_WITH_AES_128_CCM', '0');
+    - insert into cipher_names values('49197', 'TLS_ECDH_ECDSA_WITH_AES_128_GCM_SHA256', '0');
+    - insert into cipher_names values('154', 'TLS_DHE_RSA_WITH_SEED_CBC_SHA', '0');
+    - insert into cipher_names values('14', 'TLS_DH_RSA_EXPORT_WITH_DES40_CBC_SHA', '0');
+    - insert into cipher_names values('53252', 'TLS_ECDHE_PSK_WITH_AES_128_CCM_SHA256', '0');
+    - insert into cipher_names values('49191', 'TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256', '0');
+    - insert into cipher_names values('49326', 'TLS_ECDHE_ECDSA_WITH_AES_128_CCM_8', '0');
+    - insert into cipher_names values('49203', 'TLS_ECDHE_PSK_WITH_RC4_128_SHA', '0');
+    - insert into cipher_names values('49308', 'TLS_RSA_WITH_AES_128_CCM', '0');
+    - insert into cipher_names values('29', 'SSL_FORTEZZA_KEA_WITH_FORTEZZA_CBC_SHA', '0');
+    - insert into cipher_names values('17', 'TLS_DHE_DSS_EXPORT_WITH_DES40_CBC_SHA', '0');
+    - insert into cipher_names values('262272', 'SSLv20_CK_RC2_128_CBC_EXPORT40_WITH_MD5', '0');
+    - insert into cipher_names values('1', 'TLS_RSA_WITH_NULL_MD5', '0');
+    - insert into cipher_names values('49278', 'TLS_DH_RSA_WITH_CAMELLIA_128_GCM_SHA256', '0');
+    - insert into cipher_names values('31', 'TLS_KRB5_WITH_3DES_EDE_CBC_SHA', '0');
+    - insert into cipher_names values('49317', 'TLS_PSK_WITH_AES_256_CCM', '0');
+    - insert into cipher_names values('52398', 'TLS_RSA_PSK_WITH_CHACHA20_POLY1305_SHA256', '0');
+    - insert into cipher_names values('49190', 'TLS_ECDH_ECDSA_WITH_AES_256_CBC_SHA384', '0');
+    - insert into cipher_names values('153', 'TLS_DHE_DSS_WITH_SEED_CBC_SHA', '0');
+    - insert into cipher_names values('64', 'TLS_DHE_DSS_WITH_AES_128_CBC_SHA256', '0');
+    - insert into cipher_names values('49168', 'TLS_ECDHE_RSA_WITH_NULL_SHA', '0');
+    - insert into cipher_names values('49322', 'TLS_PSK_DHE_WITH_AES_128_CCM_8', '0');
+    - insert into cipher_names values('49158', 'TLS_ECDHE_ECDSA_WITH_NULL_SHA', '0');
+    - insert into cipher_names values('49311', 'TLS_DHE_RSA_WITH_AES_256_CCM', '0');
+    - insert into cipher_names values('49284', 'TLS_DH_ANON_WITH_CAMELLIA_128_GCM_SHA256', '0');
+    - insert into cipher_names values('67', 'TLS_DH_RSA_WITH_CAMELLIA_128_CBC_SHA', '0');
+    - insert into cipher_names values('49205', 'TLS_ECDHE_PSK_WITH_AES_128_CBC_SHA', '0');
+    - insert into cipher_names values('6', 'TLS_RSA_EXPORT_WITH_RC2_CBC_40_MD5', '0');
+    - insert into cipher_names values('192', 'TLS_RSA_WITH_CAMELLIA_256_CBC_SHA256', '0');
+    - insert into cipher_names values('49213', 'TLS_RSA_WITH_ARIA_256_CBC_SHA384', '0');
+    - insert into cipher_names values('174', 'TLS_PSK_WITH_AES_128_CBC_SHA256', '0');
+    - insert into cipher_names values('49318', 'TLS_DHE_PSK_WITH_AES_128_CCM', '0');
+    - insert into cipher_names values('49161', 'TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA', '0');
+    - insert into cipher_names values('168', 'TLS_PSK_WITH_AES_128_GCM_SHA256', '0');
+    - insert into cipher_names values('52397', 'TLS_DHE_PSK_WITH_CHACHA20_POLY1305_SHA256', '0');
+    - insert into cipher_names values('49300', 'TLS_PSK_WITH_CAMELLIA_128_CBC_SHA256', '0');
+    - insert into cipher_names values('144', 'TLS_DHE_PSK_WITH_AES_128_CBC_SHA', '0');
+    - insert into cipher_names values('49236', 'TLS_DH_RSA_WITH_ARIA_128_GCM_SHA256', '0');
+    - insert into cipher_names values('15', 'TLS_DH_RSA_WITH_DES_CBC_SHA', '0');
+    - insert into cipher_names values('49270', 'TLS_ECDHE_RSA_WITH_CAMELLIA_128_CBC_SHA256', '0');
+    - insert into cipher_names values('49167', 'TLS_ECDH_RSA_WITH_AES_256_CBC_SHA', '0');
+    - insert into cipher_names values('109', 'TLS_DH_ANON_WITH_AES_256_CBC_SHA256', '0');
+    - insert into cipher_names values('49157', 'TLS_ECDH_ECDSA_WITH_AES_256_CBC_SHA', '0');
+    - insert into cipher_names values('173', 'TLS_RSA_PSK_WITH_AES_256_GCM_SHA384', '0');
+    - insert into cipher_names values('49271', 'TLS_ECDHE_RSA_WITH_CAMELLIA_256_CBC_SHA384', '0');
+    - insert into cipher_names values('49249', 'TLS_ECDHE_RSA_WITH_ARIA_256_GCM_SHA384', '0');
+    - insert into cipher_names values('49301', 'TLS_PSK_WITH_CAMELLIA_256_CBC_SHA384', '0');
+    - insert into cipher_names values('129', 'TLS_GOSTR341001_WITH_28147_CNT_IMIT', '0');
+    - insert into cipher_names values('99', 'TLS_DHE_DSS_EXPORT1024_WITH_DES_CBC_SHA', '0');
+    - insert into cipher_names values('49198', 'TLS_ECDH_ECDSA_WITH_AES_256_GCM_SHA384', '0');
+    - insert into cipher_names values('49215', 'TLS_DH_DSS_WITH_ARIA_256_CBC_SHA384', '0');
+    - insert into cipher_names values('38', 'TLS_KRB5_EXPORT_WITH_DES_CBC_40_SHA', '0');
+    - insert into cipher_names values('143', 'TLS_DHE_PSK_WITH_3DES_EDE_CBC_SHA', '0');
+    - insert into cipher_names values('49307', 'TLS_ECDHE_PSK_WITH_CAMELLIA_256_CBC_SHA384', '0');
+    - insert into cipher_names values('65', 'TLS_RSA_WITH_CAMELLIA_128_CBC_SHA', '0');
+    - insert into cipher_names values('49277', 'TLS_DHE_RSA_WITH_CAMELLIA_256_GCM_SHA384', '0');
+    - insert into cipher_names values('49232', 'TLS_RSA_WITH_ARIA_128_GCM_SHA256', '0');
+    - insert into cipher_names values('7', 'TLS_RSA_WITH_IDEA_CBC_SHA', '0');
+    - insert into cipher_names values('136', 'TLS_DHE_RSA_WITH_CAMELLIA_256_CBC_SHA', '0');
+    - insert into cipher_names values('49160', 'TLS_ECDHE_ECDSA_WITH_3DES_EDE_CBC_SHA', '0');
+    - insert into cipher_names values('165', 'TLS_DH_DSS_WITH_AES_256_GCM_SHA384', '0');
+    - insert into cipher_names values('49181', 'TLS_SRP_SHA_WITH_AES_128_CBC_SHA', '0');
+    - insert into cipher_names values('156', 'TLS_RSA_WITH_AES_128_GCM_SHA256', '0');
+    - insert into cipher_names values('63', 'TLS_DH_RSA_WITH_AES_128_CBC_SHA256', '0');
+    - insert into cipher_names values('49187', 'TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA256', '0');
+    - insert into cipher_names values('4867', 'TLS_CHACHA20_POLY1305_SHA256', '1');
+    - insert into cipher_names values('32', 'TLS_KRB5_WITH_RC4_128_SHA', '0');
+    - insert into cipher_names values('162', 'TLS_DHE_DSS_WITH_AES_128_GCM_SHA256', '0');
+    - insert into cipher_names values('189', 'TLS_DHE_DSS_WITH_CAMELLIA_128_CBC_SHA256', '0');
+    - insert into cipher_names values('195', 'TLS_DHE_DSS_WITH_CAMELLIA_256_CBC_SHA256', '0');
+    - insert into cipher_names values('13', 'TLS_DH_DSS_WITH_3DES_EDE_CBC_SHA', '0');
+    - insert into cipher_names values('30', 'TLS_KRB5_WITH_DES_CBC_SHA', '0');
+    - insert into cipher_names values('49294', 'TLS_PSK_WITH_CAMELLIA_128_GCM_SHA256', '0');
+    - insert into cipher_names values('327808', 'SSLv20_CK_IDEA_128_CBC_WITH_MD5', '0');
+    - insert into cipher_names values('49180', 'TLS_SRP_SHA_DSS_WITH_3DES_EDE_CBC_SHA', '0');
+    - insert into cipher_names values('96', 'TLS_RSA_EXPORT1024_WITH_RC4_56_MD5', '0');
+    - insert into cipher_names values('26', 'TLS_DH_ANON_WITH_DES_CBC_SHA', '0');
+    - insert into cipher_names values('49224', 'TLS_ECDHE_ECDSA_WITH_ARIA_128_CBC_SHA256', '0');
+    - insert into cipher_names values('176', 'TLS_PSK_WITH_NULL_SHA256', '0');
+    - insert into cipher_names values('49242', 'TLS_DH_ANON_WITH_ARIA_128_GCM_SHA256', '0');
+    - insert into cipher_names values('133', 'TLS_DH_DSS_WITH_CAMELLIA_256_CBC_SHA', '0');
+    - insert into cipher_names values('119', 'TLS_DHE_RSA_WITH_3DES_EDE_CBC_RMD', '0');
+    - insert into cipher_names values('146', 'TLS_RSA_PSK_WITH_RC4_128_SHA', '0');
+    - insert into cipher_names values('49174', 'TLS_ECDH_ANON_WITH_RC4_128_SHA', '0');
+    - insert into cipher_names values('49239', 'TLS_DHE_DSS_WITH_ARIA_256_GCM_SHA384', '0');
+    - insert into cipher_names values('255', 'TLS_EMPTY_RENEGOTIATION_INFO_SCSV', '0');
+    - insert into cipher_names values('49246', 'TLS_ECDH_ECDSA_WITH_ARIA_128_GCM_SHA256', '0');
+    - insert into cipher_names values('49254', 'TLS_DHE_PSK_WITH_ARIA_128_CBC_SHA256', '0');
+    - insert into cipher_names values('49264', 'TLS_ECDHE_PSK_WITH_ARIA_128_CBC_SHA256', '0');
+    - insert into cipher_names values('134', 'TLS_DH_RSA_WITH_CAMELLIA_256_CBC_SHA', '0');
+    - insert into cipher_names values('49188', 'TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA384', '0');
+    - insert into cipher_names values('49262', 'TLS_RSA_PSK_WITH_ARIA_128_GCM_SHA256', '0');
+    - insert into cipher_names values('49210', 'TLS_ECDHE_PSK_WITH_NULL_SHA256', '0');
+    - insert into cipher_names values('49252', 'TLS_PSK_WITH_ARIA_128_CBC_SHA256', '0');
+    - insert into cipher_names values('52395', 'TLS_PSK_WITH_CHACHA20_POLY1305_SHA256', '0');
+    - insert into cipher_names values('138', 'TLS_PSK_WITH_RC4_128_SHA', '0');
+    - insert into cipher_names values('49176', 'TLS_ECDH_ANON_WITH_AES_128_CBC_SHA', '0');
+    - insert into cipher_names values('41', 'TLS_KRB5_EXPORT_WITH_DES_CBC_40_MD5', '0');
+    - insert into cipher_names values('49155', 'TLS_ECDH_ECDSA_WITH_3DES_EDE_CBC_SHA', '0');
+    - insert into cipher_names values('49165', 'TLS_ECDH_RSA_WITH_3DES_EDE_CBC_SHA', '0');
+    - insert into cipher_names values('49273', 'TLS_ECDH_RSA_WITH_CAMELLIA_256_CBC_SHA384', '0');
+    - insert into cipher_names values('49226', 'TLS_ECDH_ECDSA_WITH_ARIA_128_CBC_SHA256', '0');
+    - insert into cipher_names values('49303', 'TLS_DHE_PSK_WITH_CAMELLIA_256_CBC_SHA384', '0');
+    - insert into cipher_names values('49208', 'TLS_ECDHE_PSK_WITH_AES_256_CBC_SHA384', '0');
+    - insert into cipher_names values('69', 'TLS_DHE_RSA_WITH_CAMELLIA_128_CBC_SHA', '0');
+    - insert into cipher_names values('50', 'TLS_DHE_DSS_WITH_AES_128_CBC_SHA', '0');
+    - insert into cipher_names values('49256', 'TLS_RSA_PSK_WITH_ARIA_128_CBC_SHA256', '0');
+    - insert into cipher_names values('49266', 'TLS_ECDHE_ECDSA_WITH_CAMELLIA_128_CBC_SHA256', '0');
+    - insert into cipher_names values('49217', 'TLS_DH_RSA_WITH_ARIA_256_CBC_SHA384', '0');
+    - insert into cipher_names values('52', 'TLS_DH_ANON_WITH_AES_128_CBC_SHA', '0');
+    - insert into cipher_names values('65504', 'SSL_RSA_FIPS_WITH_3DES_EDE_CBC_SHA_2', '0');
+    - insert into cipher_names values('49172', 'TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA', '0');
+    - insert into cipher_names values('52393', 'TLS_ECDHE_ECDSA_WITH_CHACHA20_POLY1305_SHA256', '0');
+    - insert into cipher_names values('24', 'TLS_DH_ANON_WITH_RC4_128_MD5', '0');
+    - insert into cipher_names values('152', 'TLS_DH_RSA_WITH_SEED_CBC_SHA', '0');
+    - insert into cipher_names values('166', 'TLS_DH_ANON_WITH_AES_128_GCM_SHA256', '0');
+    - insert into cipher_names values('135', 'TLS_DHE_DSS_WITH_CAMELLIA_256_CBC_SHA', '0');
+    - insert into cipher_names values('49222', 'TLS_DH_ANON_WITH_ARIA_128_CBC_SHA256', '0');
+    - insert into cipher_names values('49211', 'TLS_ECDHE_PSK_WITH_NULL_SHA384', '0');
+    - insert into cipher_names values('27', 'TLS_DH_ANON_WITH_3DES_EDE_CBC_SHA', '0');
+    - insert into cipher_names values('19', 'TLS_DHE_DSS_WITH_3DES_EDE_CBC_SHA', '0');
+    - insert into cipher_names values('49275', 'TLS_RSA_WITH_CAMELLIA_256_GCM_SHA384', '0');
+    - insert into cipher_names values('2', 'TLS_RSA_WITH_NULL_SHA', '0');
+    - insert into cipher_names values('49163', 'TLS_ECDH_RSA_WITH_NULL_SHA', '0');
+    - insert into cipher_names values('49153', 'TLS_ECDH_ECDSA_WITH_NULL_SHA', '0');
+    - insert into cipher_names values('49244', 'TLS_ECDHE_ECDSA_WITH_ARIA_128_GCM_SHA256', '0');
+    - insert into cipher_names values('49305', 'TLS_RSA_PSK_WITH_CAMELLIA_256_CBC_SHA384', '0');
+    - insert into cipher_names values('48', 'TLS_DH_DSS_WITH_AES_128_CBC_SHA', '0');
+    - insert into cipher_names values('193', 'TLS_DH_DSS_WITH_CAMELLIA_256_CBC_SHA256', '0');
+    - insert into cipher_names values('49313', 'TLS_RSA_WITH_AES_256_CCM_8', '0');
+    - insert into cipher_names values('5818', 'TLS_CECPQ1_ECDSA_WITH_AES_256_GCM_SHA384', '0');
+    - insert into cipher_names values('49218', 'TLS_DHE_DSS_WITH_ARIA_128_CBC_SHA256', '0');
+    - insert into cipher_names values('97', 'TLS_RSA_EXPORT1024_WITH_RC2_CBC_56_MD5', '0');
+    - insert into cipher_names values('49195', 'TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256', '0');
+    - insert into cipher_names values('9', 'TLS_RSA_WITH_DES_CBC_SHA', '0');
+    - insert into cipher_names values('49200', 'TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384', '0');
+    - insert into cipher_names values('49292', 'TLS_ECDH_RSA_WITH_CAMELLIA_128_GCM_SHA256', '0');
+    - insert into cipher_names values('107', 'TLS_DHE_RSA_WITH_AES_256_CBC_SHA256', '0');
+    - insert into cipher_names values('180', 'TLS_DHE_PSK_WITH_NULL_SHA256', '0');
+    - insert into cipher_names values('49193', 'TLS_ECDH_RSA_WITH_AES_128_CBC_SHA256', '0');
+    - insert into cipher_names values('172', 'TLS_RSA_PSK_WITH_AES_128_GCM_SHA256', '0');
+    - insert into cipher_names values('49289', 'TLS_ECDH_ECDSA_WITH_CAMELLIA_256_GCM_SHA384', '0');
+    - insert into cipher_names values('194', 'TLS_DH_RSA_WITH_CAMELLIA_256_CBC_SHA256', '0');
+    - insert into cipher_names values('49201', 'TLS_ECDH_RSA_WITH_AES_128_GCM_SHA256', '0');
+    - insert into cipher_names values('181', 'TLS_DHE_PSK_WITH_NULL_SHA384', '0');
+    - insert into cipher_names values('49315', 'TLS_DHE_RSA_WITH_AES_256_CCM_8', '0');
+    - insert into cipher_names values('53249', 'TLS_ECDHE_PSK_WITH_AES_128_GCM_SHA256', '0');
+    - insert into cipher_names values('142', 'TLS_DHE_PSK_WITH_RC4_128_SHA', '0');
+    - insert into cipher_names values('49207', 'TLS_ECDHE_PSK_WITH_AES_128_CBC_SHA256', '0');
+    - insert into cipher_names values('25', 'TLS_DH_ANON_EXPORT_WITH_DES40_CBC_SHA', '0');
+    - insert into cipher_names values('49296', 'TLS_DHE_PSK_WITH_CAMELLIA_128_GCM_SHA256', '0');
+- name: negotiatedversionstable
+  description: table of negotiated versions
+  type: table
+  query: >
+    with d as (
+        with c as (
+            with b as (
+                with a as (
+                    select date_trunc('day', begin_time)           as time,
+                           (each(selected_version)).key            as version,
+                           (each(selected_version)).value::integer as count
+                    from seen_stats
+                    where begin_time >= '2019-04-01'
+                      and begin_time < '2019-05-01'
+                )
+                select time, version, sum(count) as conns
+                from a
+                group by time, version
+                order by time desc
+            )
+            select *
+            from b
+                     left outer join version_names on b.version = version_names.version
+        )
+        select name, sum(conns) as conns
+        from c
+        group by name
+        order by conns desc
+    ) select name, conns*100/sum(conns) over () as percent from d where name like 'TLS%';
+- name: negotiatedversionscategory
+  description: negotiated versions
+  type: switch
+  query: >
+    with d as (
+        with c as (
+            with b as (
+                with a as (
+                    select date_trunc('day', begin_time)           as time,
+                           (each(selected_version)).key            as version,
+                           (each(selected_version)).value::integer as count
+                    from seen_stats
+                )
+                select time, version, sum(count) as conns
+                from a
+                group by time, version
+                order by time desc
+            )
+            select *
+            from b
+                     left outer join version_names on b.version = version_names.version
+        )
+        select category, sum(conns) as conns
+        from c
+        group by category
+        order by conns desc
+    ) select conns*100/sum(conns) over () as count, category as name from d where category like 'TLS%';
+- name: signaturetablepreparation
+  description: make a nicer materialized view of the tls signature table
+  query: select 0 as count;
+  before:
+    - drop table if exists tls_signature_expanded;
+    - >
+      create table tls_signature_expanded
+      as
+      with b as (
+          with a as (
+              select string_to_array((each(tls_signature)).key, ';') as signature,
+                     (each(tls_signature)).value::integer            as count,
+                     date_trunc('month', begin_time)                 as time
+              from seen_stats
+          )
+          select signature[1] as client_version,
+                 signature[2] as supported_versions,
+                 signature[3] as client_ciphers,
+                 signature[4] as client_extensions,
+                 signature[5] as curves,
+                 signature[6] as point_formats,
+                 signature[7] as psk_kex_m,
+                 count,
+                 time
+          from a
+      )
+      select client_version,
+             supported_versions,
+             client_ciphers,
+             client_extensions,
+             curves,
+             point_formats,
+             psk_kex_m,
+             sum(count) as conns
+      from b
+      group by client_version, supported_versions, client_ciphers, client_extensions, curves, point_formats, psk_kex_m
+    - alter table tls_signature_expanded add column client_version_or_supported_versions text;
+    - update tls_signature_expanded set client_version_or_supported_versions = supported_versions where supported_versions != '';
+    - update tls_signature_expanded set client_version_or_supported_versions = client_version where client_version_or_supported_versions is null;
+- name: clientserverversionstable
+  description: table that shows both server selected and client offered versions simultaneosly
+  type: table
+  addpercent: 2,3
+  query: >
+      with server_supported_versions as (
+          with d as (
+              with c as (
+                  with b as (
+                      with a as (
+                          select date_trunc('day', begin_time)           as time,
+                                 (each(selected_version)).key            as version,
+                                 (each(selected_version)).value::integer as count
+                          from seen_stats
+                      )
+                      select time, version, sum(count) as conns
+                      from a
+                      group by time, version
+                      order by time desc
+                  )
+                  select *
+                  from b
+                           left outer join version_names on b.version = version_names.version
+              )
+              select name, sum(conns) as conns
+              from c
+              group by name
+              order by conns desc
+          )
+          select name, conns * 100 / sum(conns) over () as percent
+          from d
+          where name like 'TLS%'
+      ),
+           client_offered_versions as (
+               with b as (
+                   with a as (
+                       select unnest(string_to_array(client_version_or_supported_versions, ',')) as version, conns
+                       from tls_signature_expanded
+                   )
+                   select *
+                   from a
+                            left outer join version_names on a.version = version_names.version
+               )
+               select name,
+                      sum(conns)                                                                             as conns,
+                      sum(conns) * 100 / (select sum(conns) as count from tls_signature_expanded) as percent
+               from b
+               where name like 'TLS%'
+               group by name
+               order by conns desc
+           )
+      select coalesce(a.name, b.name)    as Version,
+             coalesce(a.percent::text, 'none') as "Server Percent",
+             coalesce(b.percent::text, 'none') as "Client Percent"
+                          from server_supported_versions a
+          full join client_offered_versions b
+      on a.name = b.name
+      order by Version asc
+# see queries.yaml for how to create the necessary tables
+# - name: tlsonethreeusetablebig
+#   description: big table that shows how often IP addresses use versions of TLS 1.3
+#   type: table
+#   addpercent: 2,4,6,8
+#   query: >
+#       with a as (
+#           select sum(count)                                                       as conns,
+#                  100 * sum(count)::float / (select sum(count) from labeledranges) as percent,
+#                  count(*)                                                         as ips,
+#                  100 * count(*)::float / (select count(*) from labeledranges)     as ippercent,
+#                  coalesce(owner, 'other')                                         as owner
+#           from labeledranges
+#           group by owner
+#           order by conns desc
+#       ),
+#            b as (
+#                select sum(count)                                                           as conns,
+#                       100 * sum(count)::float / (select sum(count) from labeledranges_all) as percent,
+#                       count(*)                                                             as ips,
+#                       100 * count(*)::float / (select count(*) from labeledranges_all)     as ippercent,
+#                       coalesce(owner, 'other')                                             as owner
+#                from labeledranges_all
+#                group by owner
+#                order by conns desc
+#            )
+#       select a.owner                                       as "Owner",
+#              a.percent                                     as "Percent TLS 1.3 conns",
+#              row_number() over (order by a.percent desc)   as "Rank",
+#              b.percent                                     as "Percent TLS < 1.3 conns",
+#              row_number() over (order by b.percent desc)   as "Rank",
+#              a.ippercent                                   as "Percent TLS 1.3 IPs",
+#              row_number() over (order by a.ippercent desc) as "Rank",
+#              b.ippercent                                   as "Percent TLS < 1.3 IPs",
+#              row_number() over (order by b.ippercent desc) as "Rank"
+#       from a
+#                full outer join b on a.owner = b.owner
+#       order by a.percent desc;
+#   before:
+#     - >
+#       create table if not exists labeledranges as (
+#       select addr, count, range, description, owner, confidence
+#       from passive_ips_april
+#       left outer join ipranges on addr << range
+#       );
+#     - >
+#       create table if not exists labeledranges_all as (
+#       select addr, count, range, description, owner, confidence
+#       from passive_ips_all_april
+#       left outer join ipranges on addr << range
+#       );
+
