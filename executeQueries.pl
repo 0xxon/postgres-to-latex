@@ -1,4 +1,4 @@
-#!/usr/bin/env perl -Ilib
+#!/usr/bin/env perl
 
 # Ok, this little script (which for the record - was never really intended to be public)
 # runs queries against a database, and writes them out into a file. Run without arguments to
