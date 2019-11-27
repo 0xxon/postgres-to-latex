@@ -5,7 +5,7 @@ This repository contains a few utilities that let you go from PostgreSQL queries
 
 The code is a bit under-documented at the moment, but might still be helpful.
 
-The main utility is ```executeQueries.pl```, which by default executes the queries contained in the file ```queries.yaml```.  The ```examples``` folder contains real-world examples of queries that were used.
+The main utility is ```executeQueries.pl```, which by default executes the queries contained in the file ```queries.yaml```.  The ```examples-tls-research``` folder contains real-world examples of queries that were used.
 
 There are several types of queries that are understood. The easiest of them (without a type specification) just expects the query to return a count. There is also the _switch_ type, which returns a struct-like latex template; the _table_ type outputs a latex table.
 
