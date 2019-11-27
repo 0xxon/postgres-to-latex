@@ -628,13 +628,14 @@
 # The following two queries need a table called passive_ips_april that contains
 # addr: the ip address
 # count: how often the IP address was seen
-# Furthermore, it needs a table called labeledranges.
+# Furthermore, it needs a table called ipranges.
 # This is the create table statement:
 # create table ipranges (
 # range cidr,
 # description text not null,
 # owner text not null,
 # confidence text not null);
+# The data is in the file ipranges; use the postgresql copy command to copy it into the database.
 # 
 # confidence
 # - name: tlsonethreeusetable
